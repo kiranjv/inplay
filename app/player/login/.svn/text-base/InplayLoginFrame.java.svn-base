@@ -1,0 +1,273 @@
+package com.app.player.login;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+
+import com.app.player.InplayComponentFactory;
+import com.app.player.InplayPlayerContext;
+import com.app.player.common.InplayConstants;
+import com.app.player.left.InplayGenreLabel;
+import com.app.player.util.InplayPlayerUtil;
+
+public class InplayLoginFrame implements ActionListener{
+	
+	JFrame loginFrame = new JFrame();
+	Font font = new Font(InplayConstants.FONT_TOHOMA,0,15);
+	JTextField userText = new JTextField();
+	JPasswordField passwordField = new JPasswordField();
+	JLabel loginLabel = new OpaqueLabel(InplayConstants.LOGIN_MESSAGE_DISPLAY,JLabel.CENTER);
+
+	
+	public JLabel getLoginLabel() {
+		return loginLabel;
+	}
+
+	public void setLoginLabel(JLabel loginLabel) {
+		this.loginLabel = loginLabel;
+	}
+
+	public InplayLoginFrame() {
+//		com.sun.awt.AWTUtilities.setWindowOpacity(loginFrame, 0.85f);
+		loginFrame.setSize(new Dimension(400,210));
+		JFrame mainFrame = InplayComponentFactory.getMainFrame();
+		Point location = mainFrame.getLocation();
+		loginFrame.setLocation(location.x+250,location.y+200);
+		loginFrame.setVisible(false);
+		loginFrame.setUndecorated(true);
+		loginFrame.setAlwaysOnTop(true);
+		layoutFrame();
+	}
+	
+	private void layoutFrame() {
+		JPanel loginPanel = new JPanel(new GridLayout(0,1));
+//		loginPanel.setBorder(new LineBorder(new Color(255,102,2),2));
+		loginPanel.setBorder(new LineBorder(Color.GRAY,2));
+		loginPanel.setBackground(Color.WHITE);
+		JPanel displayPanel = new JPanel(new GridLayout(0,1));
+		displayPanel.add(createDisplayLabel());
+		displayPanel.add(createHyperLinkLabel());
+		displayPanel.setBackground(Color.WHITE);
+		loginPanel.add(displayPanel);
+		
+		loginPanel.add(createUserNamePanel());
+		loginPanel.add(createPasswordPanel());
+		JPanel createButtonPanel = createButtonPanel();
+		createButtonPanel.setBorder(new EmptyBorder(0,110,0,0));
+		loginPanel.add(createButtonPanel);
+		loginFrame.add(loginPanel,BorderLayout.CENTER);
+		
+	}
+	
+	private JLabel createDisplayLabel() {
+		
+		loginLabel.setFont(new Font(InplayConstants.FONT_TOHOMA,0,15));
+		loginLabel.setForeground(Color.BLACK);
+		return loginLabel;
+	}
+	
+	private JLabel createHyperLinkLabel() {
+		JLabel label = new JLabel("",JLabel.CENTER);
+		label.setFont(font);
+		label.setText("<HTML><U>"+InplayConstants.LOGIN_SUBSCRIBE_MESSAGE+"</U></HTML>");
+		label.setForeground(Color.BLUE);
+		label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		label.addMouseListener(new MouseAdapter(){
+
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					Desktop.getDesktop().browse(new URI(InplayConstants.WEBSITE_ADDRESS));
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+				loginFrame.setVisible(false);
+				loginFrame.dispose();
+			}
+
+		});
+		return label;
+	}
+
+	
+	private JPanel createUserNamePanel() {
+		JPanel userPanel = new JPanel(new FlowLayout());
+		userPanel.setBackground(Color.WHITE);
+		JLabel userLabel = new JLabel("Email: ");
+		userLabel.setForeground(Color.BLACK);
+		userLabel.setBorder(new EmptyBorder(0,20,0,0));
+		userLabel.setForeground(Color.BLACK);
+		userLabel.setFont(font);
+
+		userText.setForeground(Color.BLACK);
+		userText.setFont(font);
+		userText.setPreferredSize(new Dimension(200,25));
+		userPanel.add(userLabel);
+		userPanel.add(userText);
+		userPanel.setBorder(new EmptyBorder(13,15,0,0));
+		return userPanel;
+	}
+
+	
+	private JPanel createPasswordPanel() {
+		JPanel passwordPanel = new JPanel(new FlowLayout());
+		passwordPanel.setBackground(Color.WHITE);
+		JLabel passwordLabel = new JLabel("Password: ");
+		passwordLabel.setFont(font);
+		passwordLabel.setForeground(Color.BLACK);
+		passwordLabel.setBorder(new EmptyBorder(0,4,0,0));
+		passwordField.setForeground(Color.BLACK);
+		passwordField.setFont(font);
+		passwordField.setPreferredSize(new Dimension(200,25));		
+		passwordPanel.add(passwordLabel);
+		passwordPanel.add(passwordField);
+		return passwordPanel;
+	}
+
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+		Color buttonColor = new Color(243,243,243);
+		Dimension dimension = new Dimension(85,25);
+
+		buttonPanel.setBackground(Color.WHITE);
+		JButton loginButton = new JButton("Login");
+		loginButton.setFont(font);
+		loginButton.setForeground(Color.BLACK);
+		loginButton.setBackground(buttonColor);
+		loginButton.setPreferredSize(dimension);
+		loginButton.addActionListener(new LoginActionListener());
+		buttonPanel.add(loginButton);
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.setFont(font);
+		cancelButton.setForeground(Color.BLACK);
+		cancelButton.setBackground(buttonColor);
+		cancelButton.setPreferredSize(dimension);
+		cancelButton.addActionListener(new CancelActionListener());
+		buttonPanel.add(cancelButton);
+		
+		return buttonPanel;
+	}
+
+	public void actionPerformed(ActionEvent arg0) {
+		
+	}
+	
+	
+	public JFrame getLoginFrame() {
+		return loginFrame;
+	}
+
+	public void setLoginFrame(JFrame loginFrame) {
+		this.loginFrame = loginFrame;
+	}
+
+	public static void main(String[] args) {
+		InplayLoginFrame loginFrame = InplayComponentFactory.getLoginFrame();
+		loginFrame.getLoginFrame().setVisible(true);
+		loginFrame.getLoginFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+	}
+
+	public Font getFont() {
+		return font;
+	}
+
+	public void setFont(Font font) {
+		this.font = font;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+
+	public JTextField getUserText() {
+		return userText;
+	}
+
+	public void setUserText(JTextField userText) {
+		this.userText = userText;
+	}
+
+}
+
+class CancelActionListener implements ActionListener {
+
+	public void actionPerformed(ActionEvent arg0) {
+		InplayLoginFrame loginFrame = InplayComponentFactory.getLoginFrame();
+		loginFrame.getLoginFrame().setVisible(false);
+		loginFrame.getLoginFrame().dispose();
+	}
+	
+}
+
+class LoginActionListener implements ActionListener {
+
+	public void actionPerformed(ActionEvent arg0) {
+		InplayLoginFrame loginFrame = InplayComponentFactory.getLoginFrame();
+		String email = loginFrame.getUserText().getText();
+		String password = loginFrame.getPasswordField().getText();
+		try {
+			String loginResult = InplayLoginHandler.verifyLogin(email, password);
+			System.out.println(loginResult);
+			if(InplayConstants.LOGIN_SUCCESSFUL.equals(loginResult)) {
+					loginFrame.getLoginLabel().setText("Login Successful");
+					InplayPlayerContext.setUserLoggedIn(true);
+					loginFrame.getLoginFrame().setVisible(false);
+					loginFrame.getLoginFrame().dispose();
+					// Fix this code for normal login later 
+					EmbeddedMediaPlayer mediaPlayer = InplayComponentFactory.getMediaPlayer();
+					if(mediaPlayer.isPlayable()) {
+						mediaPlayer.play();
+						InplayPlayerUtil.updateVideoCount(InplayPlayerContext.getPlayingVideoDTO());
+						InplayComponentFactory.getRatingsPanel().setVisible(true);
+						InplayComponentFactory.getRatingsPanel().setStarRatings();
+					}
+			} else {
+					loginFrame.getLoginLabel().setText(loginResult);
+					loginFrame.getLoginLabel().setForeground(Color.RED);
+					InplayPlayerContext.setUserLoggedIn(false);
+					
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+}
+
+class OpaqueLabel extends JLabel {
+	
+	public OpaqueLabel(String text, int alligment) {
+		super(text, alligment);
+	}
+}

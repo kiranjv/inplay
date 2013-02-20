@@ -1,0 +1,107 @@
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/repo/!svn/ver/3043/inlay/com/app/player/data
+END
+InplayVideoDetailsDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayVideoDetailsDTO.java
+END
+InplayVideoSearcher.java
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayVideoSearcher.java
+END
+InplayDataProvider.java
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/repo/!svn/ver/3233/inlay/com/app/player/data/InplayDataProvider.java
+END
+InplayUserDTO.java
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayUserDTO.java
+END
+InplayDataCreator.java
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayDataCreator.java
+END
+InplayDataUtils.java
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayDataUtils.java
+END
+InplayQueryGenerator.class
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayQueryGenerator.class
+END
+InplayDataCreator$1.class
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayDataCreator$1.class
+END
+VideoDateComparator.class
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repo/!svn/ver/3043/inlay/com/app/player/data/VideoDateComparator.class
+END
+InplayVideoDetailsDTO.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayVideoDetailsDTO.class
+END
+InplayVideoSearcher.class
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayVideoSearcher.class
+END
+InplayDataProvider.class
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/repo/!svn/ver/3233/inlay/com/app/player/data/InplayDataProvider.class
+END
+InplayUserDTO.class
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayUserDTO.class
+END
+VideoRatingComparator.class
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/repo/!svn/ver/3043/inlay/com/app/player/data/VideoRatingComparator.class
+END
+InplayQueryGenerator.java
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayQueryGenerator.java
+END
+InplayDataCreator.class
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayDataCreator.class
+END
+InplayDataUtils.class
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/repo/!svn/ver/3043/inlay/com/app/player/data/InplayDataUtils.class
+END

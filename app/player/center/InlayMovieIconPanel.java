@@ -1,0 +1,142 @@
+package com.app.player.center;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import com.app.player.InplayDataWorker;
+import com.app.player.data.InplayDataProvider;
+import com.app.player.data.InplayVideoDetailsDTO;
+import com.app.player.left.InplayGenerePanel;
+import com.app.player.util.InplayBackgroundImagePanel;
+import com.app.player.util.InplayPlayerUtil;
+
+public class InlayMovieIconPanel extends JPanel{
+	
+	private static final String TAG = "InlayMovieIconPanel";
+	private InplayFirstCenterPanel firstCenterPanel;
+	private InplaySmallerCenterPanel smallerCenterPanel1;
+	private InplaySmallerCenterPanel smallerCenterPanel2;
+	private InplaySmallerCenterPanel smallerCenterPanel3;
+	private InplaySmallerCenterPanel smallerCenterPanel4;
+
+	
+	public InlayMovieIconPanel(String genere) {
+		setBackground(Color.WHITE);
+		setLayout(new FlowLayout());
+		try {
+		
+		ArrayList<InplayVideoDetailsDTO> ratingSortedList = InplayDataProvider.getRatingSortedDTO(genere);
+		
+		if(ratingSortedList.size()<5) {
+			firstCenterPanel = new InplayFirstCenterPanel();
+			smallerCenterPanel1 = new InplaySmallerCenterPanel(InplayVideoDetailsDTO.getDummyDTO());
+			smallerCenterPanel2 = new InplaySmallerCenterPanel(InplayVideoDetailsDTO.getDummyDTO());
+			smallerCenterPanel3 = new InplaySmallerCenterPanel(InplayVideoDetailsDTO.getDummyDTO());
+			smallerCenterPanel4 = new InplaySmallerCenterPanel(InplayVideoDetailsDTO.getDummyDTO());
+		} else {			
+			firstCenterPanel = new InplayFirstCenterPanel(ratingSortedList.get(0));
+			smallerCenterPanel1 = new InplaySmallerCenterPanel(ratingSortedList.get(1));
+			smallerCenterPanel2 = new InplaySmallerCenterPanel(ratingSortedList.get(2));
+			smallerCenterPanel3 = new InplaySmallerCenterPanel(ratingSortedList.get(3));
+			smallerCenterPanel4 = new InplaySmallerCenterPanel(ratingSortedList.get(4));			
+		}
+		
+		
+		
+		
+		
+		JPanel smallerRightPanel = new JPanel(new GridLayout(0,1));
+		smallerRightPanel.setBackground(Color.WHITE);
+		smallerRightPanel.add(smallerCenterPanel1);
+		smallerCenterPanel1.setBorder(new LineBorder(Color.WHITE,2));
+		smallerRightPanel.add(smallerCenterPanel2);
+		smallerCenterPanel2.setBorder(new LineBorder(Color.WHITE,2));
+		
+		JPanel smallerLeftPanel = new JPanel(new GridLayout(0,1));
+		smallerLeftPanel.setBackground(Color.WHITE);
+		smallerCenterPanel3.setBorder(new LineBorder(Color.WHITE,2));
+		smallerLeftPanel.add(smallerCenterPanel3);
+		smallerCenterPanel4.setBorder(new LineBorder(Color.WHITE,2));
+		smallerLeftPanel.add(smallerCenterPanel4);
+		add(firstCenterPanel);
+		
+		JPanel smallerPanels = new JPanel(new FlowLayout());
+		smallerPanels.setBackground(Color.WHITE);
+		smallerPanels.add(smallerRightPanel);
+		smallerPanels.add(smallerLeftPanel);
+		
+		add(smallerPanels);
+		}catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void updateDisplay(String genere) {
+		ArrayList<InplayVideoDetailsDTO> list = InplayDataProvider.getRatingSortedDTO(genere);
+		if(list.size()==0) return;
+		firstCenterPanel.updateDisplay(list.get(0));
+		System.out.println(TAG+" : Video desc: "+list.get(0).getVideoDescription());
+		InplayPlayerUtil.setToolTipRecursively(firstCenterPanel, list.get(0).getVideoDescription());
+		if(list.size()==1) return;
+		smallerCenterPanel1.updateDisplay(list.get(1));
+		System.out.println(TAG+" : Video desc: "+list.get(0).getVideoDescription());
+		InplayPlayerUtil.setToolTipRecursively(smallerCenterPanel1, list.get(1).getVideoDescription());
+		if(list.size()==2) return;
+		smallerCenterPanel2.updateDisplay(list.get(2));
+		System.out.println(TAG+" : Video desc: "+list.get(0).getVideoDescription());
+		InplayPlayerUtil.setToolTipRecursively(smallerCenterPanel2, list.get(2).getVideoDescription());
+		if(list.size()==3) return;
+		smallerCenterPanel3.updateDisplay(list.get(3));
+		System.out.println(TAG+" : Video desc: "+list.get(0).getVideoDescription());
+		InplayPlayerUtil.setToolTipRecursively(smallerCenterPanel3, list.get(3).getVideoDescription());
+		if(list.size()==4) return;
+		smallerCenterPanel4.updateDisplay(list.get(4));
+		System.out.println(TAG+" : Video desc: "+list.get(0).getVideoDescription());
+		InplayPlayerUtil.setToolTipRecursively(smallerCenterPanel4, list.get(4).getVideoDescription());
+
+	}
+
+	
+	public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		 final  InlayMovieIconPanel inlayMovieIconPanel = new InlayMovieIconPanel(null);
+		frame.add(inlayMovieIconPanel,BorderLayout.CENTER);
+		  JButton button = new JButton("update");
+		  button.setToolTipText("Click to update screen");
+		  button.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent paramActionEvent) {
+				inlayMovieIconPanel.updateDisplay("Action");
+				
+			}
+			  
+		  });
+		  	frame.add(button,BorderLayout.SOUTH);
+		    frame.setLocation(100, 100);
+		    frame.setSize(775, 550);
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  frame.setVisible(true);
+		  new InplayDataWorker().start();
+	}
+
+
+}

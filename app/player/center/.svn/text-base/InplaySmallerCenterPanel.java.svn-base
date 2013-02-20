@@ -1,0 +1,116 @@
+package com.app.player.center;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.app.player.common.InplayConstants;
+import com.app.player.data.InplayVideoDetailsDTO;
+import com.app.player.listener.InplayPlayMovieMouseListener;
+import com.app.player.util.InplayBackgroundImagePanel;
+
+public class InplaySmallerCenterPanel extends JPanel{
+	
+	private InplayVideoDetailsDTO dto = InplayVideoDetailsDTO.getDummyDTO();
+	JLabel movieNameLabel  = null;
+	JLabel descLabel  = null;
+	InplayBackgroundImagePanel imagePanel=null;
+	InplayPlayMovieMouseListener listener = new InplayPlayMovieMouseListener(dto);
+	
+
+	
+	public InplaySmallerCenterPanel(InplayVideoDetailsDTO dto) {
+		this.dto = dto;
+		try {
+			imagePanel = new InplayBackgroundImagePanel(new URL(dto.getPoster()));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		addDisplay(imagePanel);
+		
+	}
+
+
+	private void addDisplay(InplayBackgroundImagePanel imagePanel) {
+		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
+		setMaximumSize(new Dimension(175,150));
+		setMinimumSize(new Dimension(175,150));
+		setPreferredSize(new Dimension(175,150));
+		
+		
+		imagePanel.setBackground(Color.WHITE);
+		imagePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		listener = new InplayPlayMovieMouseListener(dto);
+
+		imagePanel.addMouseListener(listener);
+
+        add(imagePanel,BorderLayout.CENTER);
+        
+        JPanel detailsPanel = new JPanel(new GridLayout(0,1));
+        detailsPanel.setBackground(Color.BLACK);
+        detailsPanel.setPreferredSize(new Dimension(175,25));
+        
+
+        movieNameLabel  = new JLabel(dto.getVideoTitle());
+        movieNameLabel.setFont(new Font(InplayConstants.FONT_TOHOMA,0,12));
+        movieNameLabel.setForeground(Color.WHITE);
+        movieNameLabel.setBorder(new EmptyBorder(0,3,0,0));
+        detailsPanel.add(movieNameLabel);
+        
+        
+        descLabel  = new JLabel(dto.getVideoDescription());
+        descLabel.setForeground(Color.WHITE);
+        descLabel.setFont(new Font(InplayConstants.FONT_TOHOMA,0,8));
+        descLabel.setBorder(new EmptyBorder(0,3,0,0));
+        detailsPanel.add(descLabel);
+        add(detailsPanel,BorderLayout.SOUTH);
+	}
+	
+	private void layout(URL imagelocation) {
+		imagePanel = new InplayBackgroundImagePanel(imagelocation);
+		addDisplay(imagePanel);
+	}
+	
+	
+	public void updateDisplay(final InplayVideoDetailsDTO dto ) {
+		this.dto = dto;
+		listener.setDto(dto);
+		movieNameLabel.setText(dto.getVideoTitle());
+		descLabel.setText(dto.getVideoDescription());
+				try {
+					imagePanel.updateBackGround(new URL(dto.getPoster()));
+				} catch (MalformedURLException e) {
+					throw new RuntimeException(e);
+				}
+
+	}
+
+	
+	public static void main(String[] args) throws MalformedURLException {
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel(new FlowLayout());
+		panel.add(new InplaySmallerCenterPanel(InplayVideoDetailsDTO.getDummyDTO()));
+		  frame.add(panel,BorderLayout.CENTER);
+		    frame.setLocation(100, 100);
+		    frame.setSize(775, 550);
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  frame.setVisible(true);
+
+	}
+
+
+}

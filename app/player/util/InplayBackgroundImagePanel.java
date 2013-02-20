@@ -1,0 +1,174 @@
+package com.app.player.util;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.InplayResourceFinder;
+import com.app.player.InplayPlayerContext;
+import com.app.player.common.InplayConstants;
+
+public class InplayBackgroundImagePanel extends JPanel {
+
+	private Image backgroundImage = null;
+	JLabel loadingLabel = null;
+	
+
+	public InplayBackgroundImagePanel(final URL imageUrl) {
+		setBackground(Color.WHITE);
+		setLayout(new BorderLayout());
+		loadBackGroundImage(imageUrl);
+	}
+	
+	public InplayBackgroundImagePanel(String localImagePath) {
+		setBackground(Color.WHITE);
+		setLayout(new BorderLayout());
+		try {
+			backgroundImage = ImageIO.read(InplayResourceFinder.getResourceAsStream(localImagePath));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("file path =" + localImagePath);
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void loadBackGroundImage(final URL imageUrl) {
+		loadingLabel = new JLabel();
+		
+		loadingLabel.setHorizontalAlignment(JLabel.LEFT);
+		remove(loadingLabel);
+		add(loadingLabel,BorderLayout.CENTER);
+		final InplayImageAnimation animator = new InplayImageAnimation(loadingLabel);
+		animator.stopAnimation();
+		animator.startAnimation();
+		
+		
+		class LoadThread implements Runnable {
+
+			public void run() {
+				try {
+					String imagePath = InplayImageFinder.getLocalPath(imageUrl);
+					backgroundImage = ImageIO.read(new File(imagePath));
+					animator.stopAnimation();
+					if(loadingLabel!=null) {
+					remove(loadingLabel);
+					loadingLabel = null;
+					}					
+					updateUI();
+				    
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+
+			}
+		}
+
+		InplayPlayerContext.getExecutor().execute(new LoadThread());
+	}
+
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (backgroundImage != null)
+			g.drawImage(backgroundImage, 0, 0, this.getWidth(), this
+					.getHeight(), this);
+		if(loadingLabel!=null) {
+			loadingLabel.setBorder(new EmptyBorder(0,this.getWidth()/2-25,0,0));
+		}
+	}
+
+	public Image getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public void setBackgroundImage(Image backgroundImage) {
+		this.backgroundImage = backgroundImage;
+	}
+
+	public void updateBackGround(URL imageUrl) {		
+		backgroundImage = null;
+		if(loadingLabel!=null) {
+		remove(loadingLabel);
+		}
+		validate();
+		repaint();
+		loadBackGroundImage(imageUrl);
+	}
+
+
+	public static void main(String[] args) throws Exception {
+		testRemote();
+	}
+
+	private static void testRemote() throws IOException, MalformedURLException {
+		File file = new File("cache/promenthus.jpg");
+		file.delete();
+
+		final JFrame frame = new JFrame();
+		
+		final JPanel mainPanel = new JPanel(new GridLayout(3, 1));
+		final InplayBackgroundImagePanel panel1 = new InplayBackgroundImagePanel(
+				new URL(
+						"http://www.infinitysoft.us/admin/uploads/videos/posters/promenthus.jpg"));
+		panel1.setPreferredSize(new Dimension(400, 0));
+		mainPanel.add(panel1);
+		frame.setContentPane(mainPanel);
+		frame.setLocation(100, 100);
+		frame.setSize(1050, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+	private static void testLocal() throws IOException, MalformedURLException {
+		final JFrame frame = new JFrame();
+		final JPanel mainPanel = new JPanel(new GridLayout(3, 1));
+		File file = new File("cache/promenthus.jpg");
+		file.delete();
+		String path = "http://www.infinitysoft.us/admin/uploads/videos/posters/promenthus.jpg";
+		String localPath = InplayImageFinder.getLocalPath(new URL(path));
+		final InplayBackgroundImagePanel panel1 = new InplayBackgroundImagePanel(new URL(path));
+		final BufferedImage image = ImageIO.read(new File(
+				"D:\\personal\\work\\nikhil\\jvlc\\images\\arrowRight.jpg"));
+		panel1.setPreferredSize(new Dimension(400, 0));
+		mainPanel.add(panel1);
+		JButton button = new JButton("update Image");
+		button.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent arg0) {
+				panel1.setBackgroundImage(image);
+				panel1.validate();
+				panel1.repaint();
+			}
+
+		});
+		mainPanel.add(button);
+		frame.setContentPane(mainPanel);
+		frame.setLocation(100, 100);
+		frame.setSize(1050, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+}

@@ -1,0 +1,111 @@
+package com.app.player.media;
+
+
+import java.awt.AWTEvent;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.AWTEventListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JRootPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.border.LineBorder;
+
+import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.binding.LibVlcFactory;
+import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
+import uk.co.caprica.vlcj.logger.Logger;
+import uk.co.caprica.vlcj.player.AudioOutput;
+import uk.co.caprica.vlcj.player.MediaDetails;
+import uk.co.caprica.vlcj.player.MediaMeta;
+import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventAdapter;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.DefaultFullScreenStrategy;
+import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+import uk.co.caprica.vlcj.player.embedded.FullScreenStrategy;
+import uk.co.caprica.vlcj.runtime.RuntimeUtil;
+import uk.co.caprica.vlcj.runtime.windows.WindowsCanvas;
+
+import com.app.player.InplayComponentFactory;
+import com.app.player.InplayCompositePanel;
+import com.app.player.header.InplayHeaderPanel;
+import com.app.player.left.InplayGenerePanel;
+import com.app.player.listener.InplayMainFrameWindowAdaptor;
+import com.app.player.media.listener.InplayMediaPlayerEventListener;
+import com.app.player.media.listener.InplayMediaPlayerMouseListener;
+import com.app.player.util.InplayPlayerUtil;
+import com.sun.awt.AWTUtilities;
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
+import com.sun.jna.platform.WindowUtils;
+
+public class InplayPlayerScreenPanel extends JPanel {
+	
+	   static {
+			NativeLibrary.addSearchPath(
+				      RuntimeUtil.getLibVlcLibraryName(),"VLC");
+			    Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
+			  }
+		
+
+    
+    public InplayPlayerScreenPanel(String[] args) {
+    	setLayout(new BorderLayout());
+        Canvas videoSurface = InplayComponentFactory.getVideoSurface();
+        
+        
+        JPanel mediaPanel = new JPanel(new BorderLayout());
+        mediaPanel.setBackground(Color.WHITE);
+        mediaPanel.add(videoSurface,BorderLayout.CENTER);
+        mediaPanel.add(InplayComponentFactory.getControlsPanel(),BorderLayout.SOUTH);
+        mediaPanel.add(InplayComponentFactory.getMediaPlayerEastPanel(),BorderLayout.EAST);
+        InplayComponentFactory.setMediaPanel(mediaPanel);
+        
+        add(mediaPanel,BorderLayout.CENTER);
+        
+		
+		
+    }
+    
+    public static void main(String[] args) {
+		JFrame frame = new JFrame();
+		InplayPlayerScreenPanel compositePanel = new InplayPlayerScreenPanel(null);
+		frame.add(compositePanel);
+		    frame.setLocation(100, 100);
+		    frame.setSize(950, 620);
+		    frame.setUndecorated(true);
+		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		  frame.setVisible(true);
+		}
+}

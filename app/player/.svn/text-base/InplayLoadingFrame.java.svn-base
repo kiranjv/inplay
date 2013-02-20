@@ -1,0 +1,37 @@
+package com.app.player;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+public class InplayLoadingFrame extends JFrame {
+	
+	private static InplayLoadingFrame frame = new InplayLoadingFrame(); 
+
+	static {
+		initializeFrame();
+	}
+	
+	private InplayLoadingFrame() {
+	}
+
+	private static void initializeFrame() {
+		frame.setBackground(Color.WHITE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setUndecorated(true);
+		frame.setLocation(InplayScreenResolutionHelper.getXLocation(500), InplayScreenResolutionHelper.getYLocation(250));
+		frame.setSize(250, 200);
+		frame.setVisible(false);
+	}
+	
+	public static InplayLoadingFrame getLoadingFrame() {
+		return frame;
+	}
+	
+	
+}
