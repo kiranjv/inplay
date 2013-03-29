@@ -37,7 +37,7 @@ public class InplayComponentBuilder {
 	
 	public static Canvas buildVideoSurface() {
 			Canvas videoSurface = InplayCustomCanvas.getCanvas();
-	      	videoSurface.setBackground(Color.WHITE);
+	      	//videoSurface.setBackground(Color.BLACK);
 	        videoSurface.addMouseListener(InplayComponentFactory.getMouseListener());
 	        videoSurface.addMouseMotionListener(InplayComponentFactory.getMouseListener());
 	        videoSurface.addMouseWheelListener(InplayComponentFactory.getMouseListener());

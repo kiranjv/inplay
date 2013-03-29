@@ -311,7 +311,7 @@ public class InplayPlayerControlsPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 if(InplayComponentFactory.getMediaPlayer().isPlaying()) {
                     mousePressedPlaying = true;
-                    InplayComponentFactory.getMediaPlayer().pause();
+                    //InplayComponentFactory.getMediaPlayer().pause();
                 }
                 else {
                     mousePressedPlaying = false;

@@ -8,6 +8,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
 import java.awt.event.KeyEvent;
@@ -303,12 +304,31 @@ public class InplayPlayerUtil {
 		return vlcArgs;
 	}
 
+	public static Rectangle last_bound = null;
+
 	public static void toggleFullScreen() {
+		JFrame mainFrame = InplayComponentFactory.getMainFrame();
+		if(InplayPlayerContext.isFullScreenMode()) {
+			// change to normal mode
+			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
+			InplayPlayerContext.setFullScreenMode(false);
+			
+		}
+		else {
+			//change to full screen mode
+			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
+			InplayPlayerContext.setFullScreenMode(false);
+		}
+	}
+	
+	
+	public static void old_toggleFullScreen() {
 
 		// InplayComponentFactory.getMediaPlayer().toggleFullScreen();
-
+		
 		if (InplayPlayerContext.isFullScreenMode()) {
 			// showCursor();
+			//mainFrame.setBounds(last_bound);
 			InplayComponentFactory.getHeadPanel().setVisible(true);
 
 			InplayComponentFactory.getGenerePanel().setVisible(true);
@@ -318,9 +338,11 @@ public class InplayPlayerUtil {
 					new LineBorder(new Color(182, 182, 182), 2));
 
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(true);
-			// validateComponents();
+			 validateComponents();
+
+			//InplayComponentFactory.getMediaPlayer().setFullScreen(false);
+			 InplayComponentFactory.getMediaPlayer().toggleFullScreen();
 			InplayPlayerContext.setFullScreenMode(false);
-			InplayComponentFactory.getMediaPlayer().setFullScreen(false);
 
 			// InplayComponentFactory.getGenerePanel().revalidate();
 			//
@@ -332,7 +354,7 @@ public class InplayPlayerUtil {
 
 		} else {
 			// hideCursor();
-
+			//last_bound = mainFrame.getBounds();
 			InplayComponentFactory.getHeadPanel().setVisible(false);
 
 			InplayComponentFactory.getGenerePanel().setVisible(false);
@@ -343,8 +365,9 @@ public class InplayPlayerUtil {
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(false);
 
 			validateComponents();
-			InplayComponentFactory.getMediaPlayer().setFullScreen(true);
-
+			//InplayComponentFactory.getMediaPlayer().setFullScreen(true);
+			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
+			
 			InplayPlayerContext.setFullScreenMode(true);
 			// InplayComponentFactory.getMediaPlayerEastPanel().repaint();
 			// InplayComponentFactory.getGenerePanel().repaint();
@@ -495,16 +518,15 @@ public class InplayPlayerUtil {
 			text = "Video description unavailable";
 		c.validate();
 		c.updateUI();
-		String formated_text = "<html><body bgcolor = 'white' border = 0>" + "<font color='" + "grey"
-				+ "' size=4> " + text;
+		String formated_text = "<html><body bgcolor = 'white' border = 0>"
+				+ "<font color='" + "grey" + "' size=4> " + text;
 		c.setToolTipText(formated_text);
 
 		for (Component cc : c.getComponents())
 			if (cc instanceof JComponent)
 				setToolTipRecursively((JComponent) cc, text);
 	}
-	
-	
+
 	public static Image getTitleIcon() throws IOException {
 		InputStream resourceAsStream = InplayResourceFinder
 				.getResourceAsStream(InplayConstants.TITLE_ICON);

@@ -71,6 +71,7 @@ public class InplayMediaPlayerMouseListener extends MouseAdapter {
     	
     	if(doubleClickCounter==2) {
     	InplayPlayerUtil.toggleFullScreen();
+    		//InplayComponentFactory.getMediaPlayer().toggleFullScreen();
     	doubleClickCounter = 0 ;
     	} else {
     		doubleClickCounter++;
