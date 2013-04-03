@@ -6,6 +6,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -47,6 +48,7 @@ import com.InplayResourceFinder;
 import com.app.player.InplayComponentFactory;
 import com.app.player.InplayPlayerContext;
 import com.app.player.InplayScreenResolutionHelper;
+import com.app.player.center.InlayCenterPanel;
 import com.app.player.common.InplayConstants;
 import com.app.player.context.InlayPlayerContext;
 import com.app.player.data.InplayDataCreator;
@@ -304,31 +306,69 @@ public class InplayPlayerUtil {
 		return vlcArgs;
 	}
 
-	public static Rectangle last_bound = null;
-
 	public static void toggleFullScreen() {
+		if (InplayPlayerContext.isFullScreenMode()) {
+			// normal the video screen
+			System.out.println("Resetting full screen");
+			JFrame mainFrame = InplayComponentFactory.getMainFrame();
+			mainFrame.setBackground(Color.white);
+			// resize main frame and center it
+			mainFrame.setSize(950, 650);
+			mainFrame.setLocationRelativeTo(null);
+
+			
+			
+			InplayComponentFactory.getHeadPanel().setVisible(true);
+			InplayComponentFactory.getGenerePanel().setVisible(true);
+			InplayComponentFactory.getControlsPanel().setVisible(true);
+			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(true);
+						
+			InplayPlayerContext.setFullScreenMode(false);
+
+		} else {
+
+			System.out.println("Making full screen");
+			// Maximize the video screen
+			Dimension fullScreenSize = Toolkit.getDefaultToolkit()
+					.getScreenSize();
+			System.out.println("Fullscreen width: " + fullScreenSize.width
+					+ " Height:" + fullScreenSize.height);
+			JFrame mainFrame = InplayComponentFactory.getMainFrame();
+			mainFrame.setBackground(Color.black);
+			mainFrame.setBounds(0, 0, fullScreenSize.width,
+					fullScreenSize.height);
+
+			
+			InplayComponentFactory.getHeadPanel().setVisible(false);
+			InplayComponentFactory.getGenerePanel().setVisible(false);
+			InplayComponentFactory.getControlsPanel().setVisible(false);
+			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(false);
+			
+			InplayPlayerContext.setFullScreenMode(true);
+		}
+	}
+
+	public static void old2_toggleFullScreen() {
 		JFrame mainFrame = InplayComponentFactory.getMainFrame();
-		if(InplayPlayerContext.isFullScreenMode()) {
+		if (InplayPlayerContext.isFullScreenMode()) {
 			// change to normal mode
 			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
 			InplayPlayerContext.setFullScreenMode(false);
-			
-		}
-		else {
-			//change to full screen mode
+
+		} else {
+			// change to full screen mode
 			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
-			InplayPlayerContext.setFullScreenMode(false);
+			InplayPlayerContext.setFullScreenMode(true);
 		}
 	}
-	
-	
+
 	public static void old_toggleFullScreen() {
 
 		// InplayComponentFactory.getMediaPlayer().toggleFullScreen();
-		
+
 		if (InplayPlayerContext.isFullScreenMode()) {
 			// showCursor();
-			//mainFrame.setBounds(last_bound);
+			// mainFrame.setBounds(last_bound);
 			InplayComponentFactory.getHeadPanel().setVisible(true);
 
 			InplayComponentFactory.getGenerePanel().setVisible(true);
@@ -338,10 +378,10 @@ public class InplayPlayerUtil {
 					new LineBorder(new Color(182, 182, 182), 2));
 
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(true);
-			 validateComponents();
+			validateComponents();
 
-			//InplayComponentFactory.getMediaPlayer().setFullScreen(false);
-			 InplayComponentFactory.getMediaPlayer().toggleFullScreen();
+			// InplayComponentFactory.getMediaPlayer().setFullScreen(false);
+			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
 			InplayPlayerContext.setFullScreenMode(false);
 
 			// InplayComponentFactory.getGenerePanel().revalidate();
@@ -354,7 +394,7 @@ public class InplayPlayerUtil {
 
 		} else {
 			// hideCursor();
-			//last_bound = mainFrame.getBounds();
+			// last_bound = mainFrame.getBounds();
 			InplayComponentFactory.getHeadPanel().setVisible(false);
 
 			InplayComponentFactory.getGenerePanel().setVisible(false);
@@ -365,9 +405,9 @@ public class InplayPlayerUtil {
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(false);
 
 			validateComponents();
-			//InplayComponentFactory.getMediaPlayer().setFullScreen(true);
+			// InplayComponentFactory.getMediaPlayer().setFullScreen(true);
 			InplayComponentFactory.getMediaPlayer().toggleFullScreen();
-			
+
 			InplayPlayerContext.setFullScreenMode(true);
 			// InplayComponentFactory.getMediaPlayerEastPanel().repaint();
 			// InplayComponentFactory.getGenerePanel().repaint();
