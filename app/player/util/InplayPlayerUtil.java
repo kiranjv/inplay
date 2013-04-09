@@ -320,7 +320,8 @@ public class InplayPlayerUtil {
 			
 			InplayComponentFactory.getHeadPanel().setVisible(true);
 			InplayComponentFactory.getGenerePanel().setVisible(true);
-			InplayComponentFactory.getControlsPanel().setVisible(true);
+			//InplayComponentFactory.getControlsPanel().setVisible(true);
+			
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(true);
 						
 			InplayPlayerContext.setFullScreenMode(false);
@@ -341,7 +342,7 @@ public class InplayPlayerUtil {
 			
 			InplayComponentFactory.getHeadPanel().setVisible(false);
 			InplayComponentFactory.getGenerePanel().setVisible(false);
-			InplayComponentFactory.getControlsPanel().setVisible(false);
+			//InplayComponentFactory.getControlsPanel().setVisible(false);
 			InplayComponentFactory.getMediaPlayerEastPanel().setVisible(false);
 			
 			InplayPlayerContext.setFullScreenMode(true);
@@ -495,7 +496,9 @@ public class InplayPlayerUtil {
 
 			public void run() {
 				try {
-					InplayImageFinder.getLocalPath(new URL(dto.getPoster()));
+					String poster = dto.getPoster();
+					System.err.println("Player Uitl: Poster value: "+poster );
+					InplayImageFinder.getLocalPath(new URL(poster));
 				} catch (Exception e) {
 					System.out.println("downloading poster = "
 							+ dto.getPoster());

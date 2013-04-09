@@ -54,6 +54,8 @@ import javax.swing.filechooser.FileFilter;
 
 import com.app.player.InplayComponentFactory;
 import com.app.player.InplayCompositePanel;
+
+import com.app.player.media.listener.InPlayControlPanelMouseListener;
 import com.app.player.util.InplayBackgroundImagePanel;
 import com.app.player.util.InplayComponentUtils;
 import com.sun.jna.Native;
@@ -100,6 +102,8 @@ public class InplayPlayerControlsPanel extends JPanel {
     private JFileChooser fileChooser;
   
     private boolean mousePressedPlaying = false;
+
+	private boolean setPositionValue;
     
     {
         positionSlider = new JSlider();
@@ -112,7 +116,11 @@ public class InplayPlayerControlsPanel extends JPanel {
 	public InplayPlayerControlsPanel() {
 
         createUI();
-
+     
+       
+        
+       // this.addMouseListener(new InPlayControlPanelMouseListener(1));
+        
         executorService.scheduleAtFixedRate(new UpdateRunnable(), 0L, 1L, TimeUnit.SECONDS);
     }
 
@@ -264,6 +272,7 @@ public class InplayPlayerControlsPanel extends JPanel {
             positionValue = 0.99f;
         }
         InplayComponentFactory.getMediaPlayer().setPosition(positionValue);
+        
     }
 
     private void updateUIState() {
@@ -306,7 +315,17 @@ public class InplayPlayerControlsPanel extends JPanel {
             }
         });
 
-        positionSlider.addMouseListener(new MouseAdapter() {
+    	positionSlider.addChangeListener(new ChangeListener() {
+    	      @Override
+    	      public void stateChanged(ChangeEvent e) {
+    	        if(!positionSlider.getValueIsAdjusting() && !setPositionValue) {
+    	          float positionValue = (float)positionSlider.getValue() / 100.0f;
+    	          InplayComponentFactory.getMediaPlayer().setPosition(positionValue);
+    	        }
+    	      }
+    	    });
+    	/* code commented by kiran */
+       /* positionSlider.addMouseListener(new MouseAdapter() {
             
             public void mousePressed(MouseEvent e) {
                 if(InplayComponentFactory.getMediaPlayer().isPlaying()) {
@@ -324,7 +343,7 @@ public class InplayPlayerControlsPanel extends JPanel {
                 setSliderBasedPosition();
                 updateUIState();
             }
-        });
+        });*/
 
 
         rewindPanel.addMouseListener(new MouseListener() {
@@ -473,7 +492,9 @@ public class InplayPlayerControlsPanel extends JPanel {
 
     private void updatePosition(int value) {
         // positionProgressBar.setValue(value);
+    	setPositionValue = true;
         positionSlider.setValue(value);
+        setPositionValue = false;
     }
 
     private void updateChapter(int chapter, int chapterCount) {

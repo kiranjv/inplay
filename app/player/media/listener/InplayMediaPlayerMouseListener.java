@@ -88,6 +88,7 @@ public class InplayMediaPlayerMouseListener extends MouseAdapter {
     
     public void mouseEntered(MouseEvent e) {
 //        Logger.debug("mouseEntered(e={})", e);
+    	
     }
 
     

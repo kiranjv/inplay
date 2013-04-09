@@ -23,6 +23,7 @@ import com.app.player.search.InplaySearchComboBox;
 
 public class InplayImageMultiCellRenderer implements ListCellRenderer {
 
+	private static final String TAG = "InplayImageMultiCellRenderer";
 	private InplaySearchComboBox box;
 	private Color backgroundColor = new Color(160, 160, 160);
 
@@ -39,25 +40,27 @@ public class InplayImageMultiCellRenderer implements ListCellRenderer {
 		InplayRendererDisplay returnComp = null;
 
 		// code added by kiran
-		
-		
-		
+
+		System.err.println("Object value: " + value.toString());
+
 		if (value instanceof InplayVideoDetailsDTO) {
 			InplayVideoDetailsDTO dto = (InplayVideoDetailsDTO) value;
-			
-			if(dto.getVideoThumb().equalsIgnoreCase("")) {
-				System.out.println("Value to dto video thumb: "+dto.getVideoThumb());
+			String videoThumb = dto.getVideoThumb();
+			System.out.println(TAG + " DTO: " + dto.toString() + " videoThumb: "
+					+ videoThumb);
+			if (videoThumb.equalsIgnoreCase("")) {
+				System.out.println("creating dummy dto of path: "
+						+ dummyDTO.getVideoThumb());
 				returnComp = InplayRendererDisplay.getDisplay(dummyDTO, box);
-			}
-			else {
-				System.out.println("creating dummy dto of path: "+dummyDTO.getVideoThumb());
-			returnComp = InplayRendererDisplay.getDisplay(dto, box);
+			} else {
+				System.out.println("Value to dto video thumb: "
+						+ dto.getVideoThumb());
+				returnComp = InplayRendererDisplay.getDisplay(dto, box);
 			}
 		} else {
 			returnComp = InplayRendererDisplay.getDisplay(dummyDTO, box);
 		}
 
-		
 		if (isSelected) {
 			returnComp.setBackground(backgroundColor);
 			returnComp.getNameLabel().setBackground(backgroundColor);
@@ -119,10 +122,7 @@ class InplayRendererDisplay extends JPanel {
 
 	public static InplayRendererDisplay getDisplay(InplayVideoDetailsDTO dto,
 			InplaySearchComboBox box) {
-		
-		
-		
-		
+
 		String videothumb = dto.getVideoThumb();
 		System.out.println("ImageMultiCellRender: getDisplay dto video thumb: "
 				+ videothumb);
@@ -130,7 +130,7 @@ class InplayRendererDisplay extends JPanel {
 				&& !videothumb.equalsIgnoreCase("")) {
 			displayMap.put(dto.getId(), new InplayRendererDisplay(box, dto));
 		}
-		
+
 		return displayMap.get(dto.getId());
 	}
 

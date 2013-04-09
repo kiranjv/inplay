@@ -41,6 +41,7 @@ public class InplayConstants {
 	public static String LOCAL_PROPERTY_FILE = "inplay.props";
 	public static String LOCAL_USER_DETAIL_PROPERTY_FILE = "user.props";
 	public static final String LOCAL_CONFIG_DIR = "config";
+	public static final String NOPREVIEW_IMAGE_PATH = "images" + "/" + "nopreview.jpg";
 
 	
 	

@@ -62,6 +62,7 @@ import com.app.player.InplayCompositePanel;
 import com.app.player.header.InplayHeaderPanel;
 import com.app.player.left.InplayGenerePanel;
 import com.app.player.listener.InplayMainFrameWindowAdaptor;
+import com.app.player.media.listener.InPlayControlPanelMouseListener;
 import com.app.player.media.listener.InplayMediaPlayerEventListener;
 import com.app.player.media.listener.InplayMediaPlayerMouseListener;
 import com.app.player.util.InplayPlayerUtil;
@@ -90,7 +91,12 @@ public class InplayPlayerScreenPanel extends JPanel {
         mediaPanel.add(videoSurface,BorderLayout.CENTER);
         mediaPanel.add(InplayComponentFactory.getControlsPanel(),BorderLayout.SOUTH);
         mediaPanel.add(InplayComponentFactory.getMediaPlayerEastPanel(),BorderLayout.EAST);
+       
+       
+      
+        
         InplayComponentFactory.setMediaPanel(mediaPanel);
+        
         
         add(mediaPanel,BorderLayout.CENTER);
         

@@ -183,8 +183,8 @@ public class InplayVideoDetailsDTO {
 		InplayVideoDetailsDTO videoDetailsDTO = new InplayVideoDetailsDTO("420");
 		videoDetailsDTO.setCategory("family");
 		videoDetailsDTO.setVideoDescription("This is a story of a man ");
-		videoDetailsDTO.setVideoName("Prometheus");
-		videoDetailsDTO.setVideoTitle("Prometheus");
+		videoDetailsDTO.setVideoName("Prometheus Dummy");
+		videoDetailsDTO.setVideoTitle("Prometheus Dummy");
 		videoDetailsDTO.setVideoThumb("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
 		videoDetailsDTO.setPoster("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
 		videoDetailsDTO.setVideoPath("http://www.infinitysoft.us/admin/uploads/videos/20120604031332.flv");

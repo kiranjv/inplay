@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -111,6 +112,9 @@ public class InplayDataProvider {
 			String[] columns = lines[i].split(InplayConstants.columnSeperator);
 			if (columns.length < 10)
 				continue;
+			if (i == 19) {
+				System.out.println("Starting empty che");
+			}
 			InplayVideoDetailsDTO dto = new InplayVideoDetailsDTO(
 					columns[InplayVideoDetailsDTO.idIndex]);
 			dto.setCategory(columns[InplayVideoDetailsDTO.categoryIndex]);
@@ -131,10 +135,30 @@ public class InplayDataProvider {
 			add(dto);
 			addToSet(dto);
 		}
+
+		System.err
+				.println("/* ----------- videoset list data display ------*/");
+		for (Iterator iterator = videoSet.iterator(); iterator.hasNext();) {
+			InplayVideoDetailsDTO sam_dto = (InplayVideoDetailsDTO) iterator
+					.next();
+			System.err.println("Title: " + sam_dto.getVideoTitle()
+					+ " Thumb url: " + sam_dto.getVideoThumb()
+					+ " Relese date: " + sam_dto.getReleaseDate());
+
+		}
+		System.err.println("-------------------------------------------------");
+
 	}
 
 	public static void syncDataWithServer() throws Exception {
+		// String query =
+		// "select id, category_id, category_name, video_title, video_description, video_path,"
+		// +
+		// "video_name, video_ext, video_thumb, date_added, date_modified, user_rating, release_date, poster_path, thumb_path,"
+		// + " search_path, publish, video_watch_count from is_videos";
+
 		String query = "select * from is_videos";
+
 		updateForQuery(query);
 		syncAndpopulateCatagoryData();
 	}
@@ -242,6 +266,35 @@ public class InplayDataProvider {
 			System.out
 					.println("----- -----------------------------------------------");
 		}
+	}
+
+	public static ArrayList<InplayVideoDetailsDTO> getDateSortedDTO(
+			String genere) {
+		ArrayList<InplayVideoDetailsDTO> sortedList = new ArrayList<InplayVideoDetailsDTO>(
+				videoSet);
+
+		if (genere == null || genere.trim().length() == 0
+				|| genere.equalsIgnoreCase("viewall")) {
+			Collections.sort(sortedList, new VideoDateComparator());
+			return sortedList;
+		}
+
+		TreeSet<InplayVideoDetailsDTO> treeSet = videoMap.get(genere);
+		sortedList = new ArrayList<InplayVideoDetailsDTO>(treeSet);
+		Collections.sort(sortedList, new VideoDateComparator());
+
+		return sortedList;
+	}
+
+	public static Set<InplayVideoDetailsDTO> getSortedVideoSet(String genere) {
+		ArrayList<InplayVideoDetailsDTO> ratingSortedDTO = getDateSortedDTO(genere);
+
+		Set<InplayVideoDetailsDTO> sortedSet = new TreeSet<InplayVideoDetailsDTO>(
+				InplayVideoDetailsDTO.getComparator());
+		for (int i = 0; i < ratingSortedDTO.size(); i++) {
+			sortedSet.add(ratingSortedDTO.get(i));
+		}
+		return sortedSet;
 	}
 
 }

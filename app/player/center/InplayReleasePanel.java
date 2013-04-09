@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,12 +56,27 @@ public class InplayReleasePanel extends JPanel{
 		setBackground(Color.WHITE);
 		setLayout(new FlowLayout());
 		setGenere(null);
-		Set<InplayVideoDetailsDTO> videoSet = InplayDataProvider.getVideoSet();
+		
+		/*code modified by kiran*/
+//		ArrayList<InplayVideoDetailsDTO> list = InplayDataProvider.getRatingSortedDTO(genere);
+//		addMovieDetails(list);
+		Set<InplayVideoDetailsDTO> videoSet = InplayDataProvider.getSortedVideoSet(genere);
 		addMovieDetails(videoSet);
 		setBorder(new EmptyBorder(0,0,19,0));
 		
 	}
 
+	private void addMovieDetails(ArrayList<InplayVideoDetailsDTO> sortedVideoset) {
+		displayCounter=0;
+		currentReleaseListSize = sortedVideoset.size();
+		currentReleaseList = new TreeSet<InplayVideoDetailsDTO>(sortedVideoset);
+		for (InplayVideoDetailsDTO dto : sortedVideoset) {
+			addMovieReleasePanel(dto);
+			if(++displayCounter==7)break;
+		}
+	}
+	
+	
 	private void addMovieDetails(Set<InplayVideoDetailsDTO> videoSet) {
 		displayCounter=0;
 		currentReleaseListSize = videoSet.size();
@@ -131,7 +147,9 @@ public class InplayReleasePanel extends JPanel{
 			addMovieDetails(videoSet);
 		} else {
 			Map<String, TreeSet<InplayVideoDetailsDTO>> map = InplayDataProvider.getVideoMap();
-			TreeSet<InplayVideoDetailsDTO> videoSet = map.get(genere);
+			//TreeSet<InplayVideoDetailsDTO> videoSet = map.get(genere);
+			Set<InplayVideoDetailsDTO> videoSet = InplayDataProvider.getSortedVideoSet(genere);
+			
 			addMovieDetails(videoSet);
 		}
 		displayNavigation();
@@ -142,12 +160,14 @@ public class InplayReleasePanel extends JPanel{
 		InplayDataProvider.syncDataWithServer();
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel(new FlowLayout());
-		panel.add(InplayComponentFactory.getReleasePanel());
+		InplayReleasePanel releasePanel = InplayComponentFactory.getReleasePanel();
+		panel.add(releasePanel);
 		  frame.add(panel,BorderLayout.CENTER);
 		    frame.setLocation(100, 100);
 		    frame.setSize(775, 550);
 		    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		  frame.setVisible(true);
+		 releasePanel.resetForGenere("Family");
 		}
 
 

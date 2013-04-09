@@ -28,6 +28,7 @@ import com.app.player.header.InplayHeaderPanel;
 import com.app.player.left.InplayGenerePanel;
 import com.app.player.listener.InplayMainFrameWindowAdaptor;
 import com.app.player.media.InplayPlayerControlsPanel;
+import com.app.player.media.listener.InPlayControlPanelMouseListener;
 import com.app.player.media.listener.InplayMediaPlayerEventListener;
 import com.app.player.media.listener.InplayMediaPlayerKeyListener;
 import com.app.player.media.listener.InplayMediaPlayerMouseListener;
@@ -52,6 +53,7 @@ public class InplayComponentBuilder {
         mainPanel.setBorder(new LineBorder(new Color(182,182,182),2));
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setLayout(new BorderLayout());
+       
         return mainPanel;
 	}
 	
@@ -100,6 +102,10 @@ public class InplayComponentBuilder {
         mainFrame.setBackground(Color.WHITE);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.addWindowListener(new InplayMainFrameWindowAdaptor());
+        
+        /* adding mouse listener to main panel*/
+        mainFrame.addMouseListener(new InPlayControlPanelMouseListener(1));
+        
 		return mainFrame;
 	}
 

@@ -229,7 +229,7 @@ class NewSearchListener implements KeyListener {
 				box.setSelectedItem(newData);
 			} 
 			
-			
+		
 		}
 		if((isLetterOrDigit  || isWhitespace) && (int)keyChar!=10 ) {
 			processKeyEvent(keyChar, textBoxDataWithouKeyChar);
@@ -260,6 +260,7 @@ class NewSearchListener implements KeyListener {
 		box.setSelectedItem(newData);
 		
 		newData = newData + new String(new char[]{keyChar});
+		
 	}
 	
 }
