@@ -125,7 +125,8 @@ public class InplayReleasePanel extends JPanel{
 
 	private void addMovieReleasePanel(InplayVideoDetailsDTO dto) {
 		InplayReleaseDetailPanel movieReleaseDetailPanel = new InplayReleaseDetailPanel(dto);
-		InplayPlayerUtil.downloadPoster(dto);
+		//InplayPlayerUtil.downloadPoster(dto);
+		InplayPlayerUtil.downloadSearchImage(dto);
 		movieReleaseDetailPanel.setMaximumSize(new Dimension(102,185));
 		movieReleaseDetailPanel.setMinimumSize(new Dimension(102,185));
 		movieReleaseDetailPanel.setPreferredSize(new Dimension(102,185));

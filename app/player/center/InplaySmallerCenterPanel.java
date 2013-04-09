@@ -35,7 +35,7 @@ public class InplaySmallerCenterPanel extends JPanel{
 	public InplaySmallerCenterPanel(InplayVideoDetailsDTO dto) {
 		this.dto = dto;
 		try {
-			imagePanel = new InplayBackgroundImagePanel(new URL(dto.getPoster()));
+			imagePanel = new InplayBackgroundImagePanel(new URL(dto.getThumbPath()));
 			InplayPlayerUtil.setToolTipRecursively(imagePanel, dto.getVideoDescription());
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

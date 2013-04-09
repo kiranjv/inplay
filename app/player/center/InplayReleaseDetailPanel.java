@@ -37,11 +37,11 @@ public class InplayReleaseDetailPanel extends JPanel {
 		setBackground(Color.WHITE);
 		InplayBackgroundImagePanel imagePanel;
 		try {
-			imagePanel = new InplayBackgroundImagePanel(new URL(dto.getVideoThumb()));
+			imagePanel = new InplayBackgroundImagePanel(new URL(dto.getThumbPath()));
 		} catch (MalformedURLException e) {
 			System.out.println("URL not found = " + dto.getVideoThumb() + " for id = " + dto.getId());
 			System.out.println("loading a local image.");
-			//imagePanel = new InplayBackgroundImagePanel(InplayConstants.LOADING_IMAGE_PATH);
+//			imagePanel = new InplayBackgroundImagePanel(InplayConstants.LOADING_IMAGE_PATH);
 			imagePanel = new InplayBackgroundImagePanel(InplayConstants.NOPREVIEW_IMAGE_PATH);
 		}
 		imagePanel.setCursor(new Cursor(Cursor.HAND_CURSOR));

@@ -66,7 +66,7 @@ public class InPlayControlPanelMouseListener extends MouseAdapter {
 		int panel_height = InplayComponentFactory.getControlsPanel()
 				.getHeight();
 		panel_height = fullscreen_height - panel_height;
-		System.out.println("y= " + y+" fullscreen_height: "+fullscreen_height+" panel_height:"+panel_height);
+//		System.out.println("y= " + y+" fullscreen_height: "+fullscreen_height+" panel_height:"+panel_height);
 		EmbeddedMediaPlayer mediaPlayer = InplayComponentFactory
 				.getMediaPlayer();
 		

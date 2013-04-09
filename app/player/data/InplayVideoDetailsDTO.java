@@ -8,25 +8,45 @@ import java.util.Date;
 
 import com.app.player.common.InplayConstants;
 
+/*id -0
+ category_id - 1
+ category_name - 2
+ video_title - 3
+ video_description -4
+ video_path -5
+ video_name - 6
+ video_ext - 7
+ video_thumb -8
+ date_added - 9
+ date_modified - 10
+ user_rating - 11
+ release_date - 12
+ poster_path - 13
+ thumb_path - 14
+ search_path - 15
+ published -16
+ vid - 17*/
 public class InplayVideoDetailsDTO {
-	
-	public static int idIndex =0;
-	public static int categoryIndex=1;
+
+	public static int idIndex = 0;
+	public static int categoryIndex = 1;
 	public static int categoryDescIndex = 2;
-	public static int videoTitleIndex=3;
-	public static int videoDescriptionIndex=4;
-	public static int videoPathIndex=5;
-	public static int videoNameIndex=6;
-	public static int videoExtIndex=7;
-	public static int videoThumbIndex=8;
-	public static int dateAddedIndex=9;
-	public static int dateModifiedIndex=10;
-	public static int user_ratingIndex=11;
+	public static int videoTitleIndex = 3;
+	public static int videoDescriptionIndex = 4;
+	public static int videoPathIndex = 5;
+	public static int videoNameIndex = 6;
+	public static int videoExtIndex = 7;
+	public static int videoThumbIndex = 8;
+	public static int dateAddedIndex = 9;
+	public static int dateModifiedIndex = 10;
+	public static int user_ratingIndex = 11;
 	public static int release_dateIndex = 12;
 	public static int posterIdex = 13;
-	public static int publishedIndex=16;
-	public static int videoWatchCountIndex=17;
-	
+	public static int thumb_pathIndex = 14;
+	public static int search_pathIndex = 15;
+	public static int publishedIndex = 16;
+	public static int videoWatchCountIndex = 17;
+
 	private String id;
 	private String category;
 	private String categoryDesc;
@@ -39,13 +59,29 @@ public class InplayVideoDetailsDTO {
 	private String published;
 	private String dateAdded;
 	private String dateModified;
-	private String userRating="0";
+	private String userRating = "0";
 	private String releaseDate;
 	private String poster;
-	private String videoWatchCount="0";
-	
-	
-	
+	private String videoWatchCount = "0";
+	private String thumbPath;
+	private String searchPath;
+
+	public String getThumbPath() {
+		return thumbPath;
+	}
+
+	public void setThumbPath(String thumbPath) {
+		this.thumbPath = thumbPath;
+	}
+
+	public String getSearchPath() {
+		return searchPath;
+	}
+
+	public void setSearchPath(String searchPath) {
+		this.searchPath = searchPath;
+	}
+
 	public String getVideoWatchCount() {
 		return videoWatchCount;
 	}
@@ -81,90 +117,112 @@ public class InplayVideoDetailsDTO {
 	public InplayVideoDetailsDTO(String id) {
 		this.id = id;
 	}
-	
+
 	public String getCategory() {
 		return category;
 	}
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
+
 	public String getDateAdded() {
 		return dateAdded;
 	}
+
 	public void setDateAdded(String dateAdded) {
 		this.dateAdded = dateAdded;
 	}
+
 	public String getDateModified() {
 		return dateModified;
 	}
+
 	public void setDateModified(String dateModified) {
 		this.dateModified = dateModified;
 	}
+
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getPublished() {
 		return published;
 	}
+
 	public void setPublished(String published) {
 		this.published = published;
 	}
+
 	public String getVideoDescription() {
 		return videoDescription;
 	}
+
 	public void setVideoDescription(String videoDescription) {
 		this.videoDescription = videoDescription;
 	}
+
 	public String getVideoExt() {
 		return videoExt;
 	}
+
 	public void setVideoExt(String videoExt) {
 		this.videoExt = videoExt;
 	}
+
 	public String getVideoName() {
 		return videoName;
 	}
+
 	public void setVideoName(String videoName) {
 		this.videoName = videoName;
 	}
+
 	public String getVideoPath() {
 		return videoPath;
 	}
+
 	public void setVideoPath(String videoPath) {
 		this.videoPath = videoPath;
 	}
+
 	public String getVideoThumb() {
 		return videoThumb;
 	}
+
 	public void setVideoThumb(String videoThumb) {
 		this.videoThumb = videoThumb;
 	}
+
 	public String getVideoTitle() {
 		return videoTitle;
 	}
+
 	public void setVideoTitle(String videoTitle) {
 		this.videoTitle = videoTitle;
 	}
-	
+
 	public boolean equals(Object detailsDTO) {
-		if(detailsDTO instanceof InplayVideoDetailsDTO) {
-			InplayVideoDetailsDTO dto = (InplayVideoDetailsDTO)detailsDTO;
+		if (detailsDTO instanceof InplayVideoDetailsDTO) {
+			InplayVideoDetailsDTO dto = (InplayVideoDetailsDTO) detailsDTO;
 			return dto.getId().equals(this.getId());
 		}
-		
+
 		return detailsDTO == this;
 	}
-	
+
 	public int hashCode() {
 		return this.getId().toString().hashCode();
 	}
-	
+
 	public String toString() {
-		return this.getVideoTitle();
-//		return "test";
+		String data = "Title= "+this.getVideoTitle()+ " -- ThumbPath= "+this.getThumbPath()+" -- SearchPath= "+this.getSearchPath();
+		return data;
+		// return "test";
 	}
 
 	public String getCategoryDesc() {
@@ -174,82 +232,82 @@ public class InplayVideoDetailsDTO {
 	public void setCategoryDesc(String categoryDesc) {
 		this.categoryDesc = categoryDesc;
 	}
-	
+
 	public static Comparator<InplayVideoDetailsDTO> getComparator() {
-			return new VideoDateComparator();
+		return new VideoDateComparator();
 	}
-	
-	public static InplayVideoDetailsDTO getDummyDTO(){
+
+	public static InplayVideoDetailsDTO getDummyDTO() {
 		InplayVideoDetailsDTO videoDetailsDTO = new InplayVideoDetailsDTO("420");
 		videoDetailsDTO.setCategory("family");
 		videoDetailsDTO.setVideoDescription("This is a story of a man ");
 		videoDetailsDTO.setVideoName("Prometheus Dummy");
 		videoDetailsDTO.setVideoTitle("Prometheus Dummy");
-		videoDetailsDTO.setVideoThumb("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
-		videoDetailsDTO.setPoster("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
-		videoDetailsDTO.setVideoPath("http://www.infinitysoft.us/admin/uploads/videos/20120604031332.flv");
+		videoDetailsDTO
+				.setVideoThumb("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
+		videoDetailsDTO
+				.setPoster("http://www.infinitysoft.us/admin/uploads/videos/thumbs/Memento.jpg");
+		videoDetailsDTO
+				.setVideoPath("http://www.infinitysoft.us/admin/uploads/videos/20120604031332.flv");
 		videoDetailsDTO.setUserRating("4");
 		return videoDetailsDTO;
 	}
-	
-	
+
 	public String getFormattedData() {
 		Field[] fields = this.getClass().getDeclaredFields();
 		StringBuffer result = new StringBuffer();
-	    //print field names paired with their values
-	    for ( Field field : fields  ) {
-	      result.append(" ");
-	      try {
-	        result.append( field.getName() );
-	        result.append(": ");
-	        //requires access to private field:
-	        result.append( field.get(this) );
-	      }
-	      catch ( IllegalAccessException ex ) {
-	        System.out.println(ex);
-	      }
-	      result.append("\n");
-	    }
-	    return result.toString();
-	  }
-	
-	public static int dateCompare(InplayVideoDetailsDTO dto1, InplayVideoDetailsDTO dto2) {
+		// print field names paired with their values
+		for (Field field : fields) {
+			result.append(" ");
+			try {
+				result.append(field.getName());
+				result.append(": ");
+				// requires access to private field:
+				result.append(field.get(this));
+			} catch (IllegalAccessException ex) {
+				System.out.println(ex);
+			}
+			result.append("\n");
+		}
+		return result.toString();
+	}
+
+	public static int dateCompare(InplayVideoDetailsDTO dto1,
+			InplayVideoDetailsDTO dto2) {
 		try {
-			Date releaseDate1 = new SimpleDateFormat(InplayConstants.DB_DATE_FORMAT).parse(dto1.getReleaseDate());
-			Date releaseDate2 = new SimpleDateFormat(InplayConstants.DB_DATE_FORMAT).parse(dto2.getReleaseDate());
+			Date releaseDate1 = new SimpleDateFormat(
+					InplayConstants.DB_DATE_FORMAT).parse(dto1.getDateAdded());
+			Date releaseDate2 = new SimpleDateFormat(
+					InplayConstants.DB_DATE_FORMAT).parse(dto2.getDateAdded());
 			// reverse chronological order of video as per date.
 			int result = releaseDate2.compareTo(releaseDate1);
-			if(result == 0 ) {
-				return  dto1.getId().compareTo(dto2.getId());
+			if (result == 0) {
+				return dto1.getId().compareTo(dto2.getId());
 			} else {
 				return result;
 			}
 		} catch (ParseException e) {
 			throw new RuntimeException(e);
 		}
-	}	
+	}
 }
 
 class VideoDateComparator implements Comparator<InplayVideoDetailsDTO> {
 
 	public int compare(InplayVideoDetailsDTO dto1, InplayVideoDetailsDTO dto2) {
-			return InplayVideoDetailsDTO.dateCompare(dto1, dto2);
+		return InplayVideoDetailsDTO.dateCompare(dto1, dto2);
 	}
-	
+
 }
-
-
 
 class VideoRatingComparator implements Comparator<InplayVideoDetailsDTO> {
 
 	// sort in desc order of rating.
 	public int compare(InplayVideoDetailsDTO dto1, InplayVideoDetailsDTO dto2) {
-		if(dto1.getUserRating().compareTo(dto2.getUserRating())==0) {
+		if (dto1.getUserRating().compareTo(dto2.getUserRating()) == 0) {
 			return InplayVideoDetailsDTO.dateCompare(dto1, dto2);
 		} else {
 			return dto2.getUserRating().compareTo(dto1.getUserRating());
 		}
 	}
 }
-
-

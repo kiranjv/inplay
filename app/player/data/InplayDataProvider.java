@@ -132,6 +132,8 @@ public class InplayDataProvider {
 			dto.setReleaseDate(columns[InplayVideoDetailsDTO.release_dateIndex]);
 			dto.setPoster(columns[InplayVideoDetailsDTO.posterIdex]);
 			dto.setVideoWatchCount(columns[InplayVideoDetailsDTO.videoWatchCountIndex]);
+			dto.setThumbPath(columns[InplayVideoDetailsDTO.thumb_pathIndex]);
+			dto.setSearchPath(columns[InplayVideoDetailsDTO.search_pathIndex]);
 			add(dto);
 			addToSet(dto);
 		}
@@ -141,9 +143,7 @@ public class InplayDataProvider {
 		for (Iterator iterator = videoSet.iterator(); iterator.hasNext();) {
 			InplayVideoDetailsDTO sam_dto = (InplayVideoDetailsDTO) iterator
 					.next();
-			System.err.println("Title: " + sam_dto.getVideoTitle()
-					+ " Thumb url: " + sam_dto.getVideoThumb()
-					+ " Relese date: " + sam_dto.getReleaseDate());
+			System.err.println(sam_dto);
 
 		}
 		System.err.println("-------------------------------------------------");

@@ -509,6 +509,25 @@ public class InplayPlayerUtil {
 
 		});
 	}
+	
+	public static void downloadSearchImage(final InplayVideoDetailsDTO dto) {
+		InplayPlayerContext.getExecutor().execute(new Runnable() {
+
+			public void run() {
+				try {
+					String poster = dto.getSearchPath();
+					System.err.println("Player Uitl: Search image path: "+poster );
+					InplayImageFinder.getLocalPath(new URL(poster));
+				} catch (Exception e) {
+					System.out.println("downloading search image = "
+							+ dto.getSearchPath());
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			}
+
+		});
+	}
 
 	public static byte[] readFully(InputStream paramInputStream, int paramInt,
 			boolean paramBoolean) throws IOException {
@@ -575,5 +594,10 @@ public class InplayPlayerUtil {
 				.getResourceAsStream(InplayConstants.TITLE_ICON);
 		Image iconImage = ImageIO.read(resourceAsStream);
 		return iconImage;
+	}
+	
+	public static float twoDecimalFloat(float floatValue) {
+		return Float.valueOf(String.format("%.2f", floatValue));
+		
 	}
 }
