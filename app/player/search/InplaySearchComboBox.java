@@ -232,34 +232,34 @@ class NewSearchListener implements KeyListener {
 		
 		}
 		if((isLetterOrDigit  || isWhitespace) && (int)keyChar!=10 ) {
-			//processKeyEvent(keyChar, textBoxDataWithouKeyChar);
+			processKeyEvent(keyChar, textBoxDataWithouKeyChar);
 		}
 
 		
 	}
 
 	private void processKeyEvent(char keyChar, String textBoxDataWithouKeyChar) {
-//		if(newData==null) {
-//			newData = textBoxDataWithouKeyChar;
-//		}
-//		LinkedHashSet<InplayVideoDetailsDTO> list = InplayVideoSearcher.getListForSearchText(newData + new String(new char[]{keyChar}));
-//		
-//		if(list.size()==0) {
-//			box.hidePopup();
-//			newData = newData + new String(new char[]{keyChar});
-//			return;
-//		}
-//
-//		
-//		box.removeAllItems();
-//		for (InplayVideoDetailsDTO dto : list) {
-//			box.addItem(dto);
-//		}
-//		box.setMaximumRowCount(list.size());
-//		box.showPopup();
-//		box.setSelectedItem(newData);
-//		
-//		newData = newData + new String(new char[]{keyChar});
+		if(newData==null) {
+			newData = textBoxDataWithouKeyChar;
+		}
+		LinkedHashSet<InplayVideoDetailsDTO> list = InplayVideoSearcher.getListForSearchText(newData + new String(new char[]{keyChar}));
+		
+		if(list.size()==0) {
+			box.hidePopup();
+			newData = newData + new String(new char[]{keyChar});
+			return;
+		}
+
+		
+		box.removeAllItems();
+		for (InplayVideoDetailsDTO dto : list) {
+			box.addItem(dto);
+		}
+		box.setMaximumRowCount(list.size());
+		box.showPopup();
+		box.setSelectedItem(newData);
+		
+		newData = newData + new String(new char[]{keyChar});
 		
 	}
 	
